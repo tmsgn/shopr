@@ -10,21 +10,47 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
 model Store {
   id         String      @id @default(uuid())
   name       String
   userId     String
+  
   billboards Billboard[] @relation("StoreToBillboard")
+  categories Catagory[]  @relation("StoreToCatagory")
+  sizes      Size[]      @relation("StoreToSIze")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
 
 model Billboard {
-  id        String   @id @default(uuid())
-  lable     String
-  storeId   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  imageUrl  String
-  store     Store    @relation("StoreToBillboard", fields: [storeId], references: [id])
+  id         String     @id @default(uuid())
+  lable      String
+  storeId    String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  imageUrl   String
+  store      Store      @relation("StoreToBillboard", fields: [storeId], references: [id])
+  categories Catagory[] @relation
+}
+
+model Catagory {
+  id         String    @id @default(uuid())
+  storeId    String
+  store      Store     @relation("StoreToCatagory", fields: [storeId], references: [id])
+  billboardId String
+  billboard   Billboard @relation(fields: [billboardId], references: [id])
+  name       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Size{
+  id         String    @id @default(uuid())
+  storeId    String
+  store      Store     @relation("StoreToSIze",fields: [storeId], references: [id])
+  name       String
+  value      String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }

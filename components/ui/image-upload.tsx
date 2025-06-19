@@ -19,6 +19,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [preview, setPreview] = useState<string | null>(null);
+    const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         if (value) {
@@ -28,12 +29,33 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         }
     }, [value]);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            const url = URL.createObjectURL(file);
-            setPreview(url);
-            onChange(url);
+            setUploading(true);
+           
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "my_preset"); 
+
+            try {
+                const res = await fetch(
+                    "https://api.cloudinary.com/v1_1/dqbfjahy6/image/upload", 
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+                const data = await res.json();
+                if (data.secure_url) {
+                    setPreview(data.secure_url);
+                    onChange(data.secure_url);
+                }
+            } catch (error) {
+                alert("Image upload failed");
+            } finally {
+                setUploading(false);
+            }
         }
     };
 
@@ -71,11 +93,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             {!preview && (
                 <Button
                     variant="secondary"
-                    disabled={disabled}
+                    disabled={disabled || uploading}
                     onClick={() => fileInputRef.current?.click()}
                 >
                     <ImagePlus className="h-4 w-4" />
-                    Upload an image
+                    {uploading ? "Uploading..." : "Upload an image"}
                 </Button>
             )}
             <input
@@ -84,7 +106,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 accept="image/*"
                 onChange={handleFileChange}
                 style={{ display: "none" }}
-                disabled={disabled}
+                disabled={disabled || uploading}
             />
         </div>
     );
