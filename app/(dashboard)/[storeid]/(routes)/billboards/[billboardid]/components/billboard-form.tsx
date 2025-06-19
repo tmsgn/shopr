@@ -135,10 +135,10 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                   <FormLabel>Background image</FormLabel>
                   <FormControl>
                     <ImageUpload
-                      value={field.value}
+                      value={field.value ? [field.value] : []}
                       disabled={isLoading}
-                      onChange={(url) => {
-                        field.onChange(url);
+                      onChange={(urls) => {
+                        field.onChange(urls[0] || "");
                       }}
                       onRemove={(url) => {
                         field.onChange("");

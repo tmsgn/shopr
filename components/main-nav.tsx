@@ -53,7 +53,7 @@ export function MainNav({
   ];
 
   return (
-    <div className="flex z-10 w-full items-center relative">
+    <div className="flex z-10 w-full items-center ">
       {/* Mobile menu button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -88,7 +88,7 @@ export function MainNav({
       {/* Mobile nav dropdown */}
       {isOpen && (
         <nav
-          className="absolute  top-full left-0 min-w-full rounded-lg bg-white shadow-md p-4 flex flex-col space-y-4 z-20 lg:hidden"
+          className="absolute  top-full w-full sm:w-96 right-0 rounded-lg bg-white shadow-md p-4 flex flex-col space-y-4 z-20 lg:hidden"
           {...props}
         >
           {routes.map((route) => (

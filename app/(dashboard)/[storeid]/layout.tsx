@@ -29,9 +29,11 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-white">
+    <div className="min-h-screen w-full overflow-x-hidden ">
       <Navbar />
-      {children}
+      <div className="pt-16 ">
+        {children}
+      </div>
     </div>
   );
 }
