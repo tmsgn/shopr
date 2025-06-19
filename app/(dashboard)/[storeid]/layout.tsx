@@ -28,8 +28,8 @@ export default async function DashboardLayout({
     redirect("/");
   }
 
- return (
-    <div className="">
+  return (
+    <div className="min-h-screen w-full overflow-x-hidden bg-white">
       <Navbar />
       {children}
     </div>

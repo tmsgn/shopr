@@ -12,15 +12,17 @@ datasource db {
 }
 
 model Store {
-  id         String      @id @default(uuid())
-  name       String
-  userId     String
-  
+  id     String @id @default(uuid())
+  name   String
+  userId String
+
   billboards Billboard[] @relation("StoreToBillboard")
   categories Catagory[]  @relation("StoreToCatagory")
-  sizes      Size[]      @relation("StoreToSIze")
+  sizes      Size[]      @relation("StoreToSize")
+  colors     Color[]     @relation("StoreToColor")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+  products   Product[]   @relation("ProductToStore")
 }
 
 model Billboard {
@@ -35,22 +37,63 @@ model Billboard {
 }
 
 model Catagory {
-  id         String    @id @default(uuid())
-  storeId    String
-  store      Store     @relation("StoreToCatagory", fields: [storeId], references: [id])
+  id          String    @id @default(uuid())
+  storeId     String
+  store       Store     @relation("StoreToCatagory", fields: [storeId], references: [id])
   billboardId String
   billboard   Billboard @relation(fields: [billboardId], references: [id])
-  name       String
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[] @relation("ProductToCatagory")
 }
 
-model Size{
-  id         String    @id @default(uuid())
-  storeId    String
-  store      Store     @relation("StoreToSIze",fields: [storeId], references: [id])
+model Size {
+  id        String    @id @default(uuid())
+  storeId   String
+  store     Store     @relation("StoreToSize", fields: [storeId], references: [id])
+  name      String
+  value     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[] @relation("ProductToSize")
+}
+
+model Color {
+  id        String    @id @default(uuid())
+  storeId   String
+  store     Store     @relation("StoreToColor", fields: [storeId], references: [id])
+  name      String
+  value     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[] @relation("ProductToColor")
+}
+
+model Product {
+  id         String   @id @default(uuid())
   name       String
-  value      String
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  price      Decimal
+  storeId    String
+  store      Store    @relation("ProductToStore", fields: [storeId], references: [id])
+  categoryId String
+  category   Catagory @relation("ProductToCatagory", fields: [categoryId], references: [id])
+  sizeId     String?
+  size       Size?    @relation("ProductToSize", fields: [sizeId], references: [id])
+  colorId    String?
+  color      Color?   @relation("ProductToColor", fields: [colorId], references: [id])
+  images     Image[]  @relation("ImageToProduct")
+  isFeatured Boolean @default(false)
+  isArchived Boolean @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Image{
+  id       String   @id @default(uuid())
+  url       String
+  productId String
+  product   Product? @relation("ImageToProduct",fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

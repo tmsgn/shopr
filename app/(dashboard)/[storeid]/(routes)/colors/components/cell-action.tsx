@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { SizeColumn } from "./columns";
+import { ColorColumn } from "./columns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,13 +17,14 @@ import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
 
 interface CellActionProps {
-  data: SizeColumn;
+  data: ColorColumn;
 }
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const params = useParams();
   const [open, setOpen] = useState(false);
+
   const onCopy = (id: string) => {
     setLoading(true);
     navigator.clipboard.writeText(id);
@@ -36,14 +37,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     try {
       setLoading(true);
       await axios.delete(
-        `/api/${params.storeid}/sizes/${data.id}`
+        `/api/${params.storeid}/colors/${data.id}`
       );
       router.refresh();
-      router.push(`/${params.storeid}/sizes`);
-      toast.success("size deleted successfully");
+      router.push(`/${params.storeid}/colors`);
+      toast.success("Color deleted successfully");
     } catch (error) {
       toast.error(
-        "Make sure you removed all products using this size first."
+        "Make sure you removed all products using this color first."
       );
     } finally {
       setLoading(false);
@@ -79,13 +80,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/${params.storeid}/sizes/${data.id}`)
+              router.push(`/${params.storeid}/colors/${data.id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={()=>{setOpen(true)}} disabled={loading}>
+          <DropdownMenuItem onClick={() => setOpen(true)} disabled={loading}>
             <Trash className="mr-2 text-red-800 h-4 w-4" />
             Delete
           </DropdownMenuItem>
