@@ -1,27 +1,25 @@
-"use client";
+import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ModalProvider } from "@/providers/modal-provider";
-import { ToastProvider } from "@/providers/toast-provider";
-import { useForm, FormProvider } from "react-hook-form";
+import { FormProvider } from "@/components/form-provider";
 import "./globals.css";
 
-type GlobalFormData = any;
+export const metadata: Metadata = {
+  title: "Shopr - E-commerce Dashboard",
+  description: "Manage your e-commerce store",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const methods = useForm<GlobalFormData>();
   return (
     <ClerkProvider>
       <html lang="en">
         <body className={` antialiased `}>
-          <FormProvider {...methods}>
-            <ModalProvider />
-            <ToastProvider />
+          <FormProvider>
+            {children}
           </FormProvider>
-          {children}
         </body>
       </html>
     </ClerkProvider>

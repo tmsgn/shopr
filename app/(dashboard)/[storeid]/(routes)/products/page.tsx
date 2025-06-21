@@ -4,6 +4,20 @@ import prismadb from "@/lib/prismadb";
 import { ProductColumn } from "./components/columns";
 import { format } from "date-fns";
 import { formatter } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { storeid: string } }): Promise<Metadata> {
+  const store = await prismadb.store.findUnique({
+    where: {
+      id: params.storeid
+    }
+  });
+
+  return {
+    title: `Products | ${store?.name}`,
+    description: `Manage products for ${store?.name} store`
+  };
+}
 
 const ProductsPage = async ({ params }: { params: { storeid: string } }) => {
   const products = await prismadb.product.findMany({

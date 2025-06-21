@@ -3,6 +3,12 @@ import Navbar from "@/components/navbar";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Manage your store",
+};
 
 export default async function DashboardLayout({
   children,
