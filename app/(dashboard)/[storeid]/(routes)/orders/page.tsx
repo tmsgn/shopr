@@ -6,6 +6,12 @@ import { OrderColumn } from './components/columns';
 import {format} from 'date-fns'
 import { formatter } from '@/lib/utils';
 
+export const metadata = {
+  title: 'Orders',
+  description: 'Manage orders for your store',
+};
+
+
 const OrdersPage = async ({
   params
 }: {

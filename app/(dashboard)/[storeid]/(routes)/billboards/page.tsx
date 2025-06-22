@@ -1,9 +1,13 @@
-
 import React from 'react'
 import { BillboardClient } from './components/client'
 import prismadb from '@/lib/prismadb';
 import { BillboardColumn } from './components/columns';
-import {format} from 'date-fns'
+import { format } from 'date-fns'
+
+export const metadata = {
+  title: 'Billboards',
+  description: 'Manage billboards for your store',
+};
 
 const BillboardPage = async ({
   params
@@ -19,7 +23,7 @@ const BillboardPage = async ({
     }
   })
 
-  const formattedBillboard : BillboardColumn[] = billboard.map((item) => ({
+  const formattedBillboard: BillboardColumn[] = billboard.map((item) => ({
     id: item.id,
     lable: item.lable,
     createdAt: format(item.createdAt, 'MMMM do, yyyy'),
@@ -27,9 +31,9 @@ const BillboardPage = async ({
 
   return (
     <div className='flex-col'>
-        <div className='flex-1 space-y-4 p-8 pt-6'>
-            <BillboardClient data={formattedBillboard}/>
-        </div>
+      <div className='flex-1 space-y-4 p-8 pt-6'>
+        <BillboardClient data={formattedBillboard} />
+      </div>
     </div>
   )
 }

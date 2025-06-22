@@ -5,6 +5,12 @@ import prismadb from '@/lib/prismadb';
 import { SizeColumn } from './components/columns';
 import {format} from 'date-fns'
 
+export const metadata = {
+  title: 'Sizes',
+  description: 'Manage sizes for your store',
+};
+
+
 const SizesPage = async ({
   params
 }: {

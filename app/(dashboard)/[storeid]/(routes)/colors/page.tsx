@@ -4,6 +4,13 @@ import prismadb from "@/lib/prismadb";
 import { ColorColumn } from "./components/columns";
 import { format } from "date-fns";
 
+
+export const metadata = {
+  title: 'Colors',
+  description: 'Manage Colors for your store',
+};
+
+
 const ColorsPage = async ({
   params,
 }: {

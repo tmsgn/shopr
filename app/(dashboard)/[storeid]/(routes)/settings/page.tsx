@@ -3,6 +3,13 @@ import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation";
 import { SettingsForm } from "./components/settings-form";
 
+
+export const metadata = {
+  title: 'Settings',
+  description: 'settings for your store',
+};
+
+
 interface SettingsPageProps {
     params: {
         storeid: string

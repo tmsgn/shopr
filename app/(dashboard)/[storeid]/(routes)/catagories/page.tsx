@@ -5,6 +5,12 @@ import prismadb from '@/lib/prismadb';
 import {  CatagoryColumn } from './components/columns';
 import {format} from 'date-fns'
 
+export const metadata = {
+  title: 'Catagories',
+  description: 'Manage catagories for your store',
+};
+
+
 const CatagoriesPage = async ({
   params
 }: {
